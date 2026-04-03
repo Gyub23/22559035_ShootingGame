@@ -8,6 +8,8 @@ public class MonsterMovement : MonoBehaviour
     //public GameObject target;
     Vector3 direct = Vector3.down;
 
+    public GameObject Explosion;
+
     private void Start()
     {
         int rndNum = Random.Range(0, 10);
@@ -27,6 +29,9 @@ public class MonsterMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        GameObject explosionObj = Instantiate(Explosion);
+        explosionObj.transform.position = transform.position;
+
         Destroy(collision.gameObject);
 
         Destroy(gameObject);

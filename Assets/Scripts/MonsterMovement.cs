@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class MonsterMovement : MonoBehaviour
 {
-    public float spd = 1.0f;
+    private Rigidbody rb;
+
+    public float spd = 0;
     public GameObject target;
-    //public GameObject target;
-    //public GameObject PrefabsExplosion;
     Vector3 direct = Vector3.down;
 
     public GameObject Explosion;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        spd = Random.Range(0.1f, 20f);
         int rndNum = Random.Range(0, 10);
         if(rndNum < 3)
         {
@@ -41,7 +43,7 @@ public class MonsterMovement : MonoBehaviour
             if(scoreManager.nowScore > scoreManager.bestScore)
             {
                 scoreManager.bestScore = scoreManager.nowScore;
-                scoreManager.bestScoreUI.text = "Best Score : " + scoreManager.bestScore;
+                scoreManager.bestScoreUI.text = "BEST SCORE : " + scoreManager.bestScore;
                 PlayerPrefs.SetInt("BestScore", scoreManager.bestScore);
             }
 
@@ -55,6 +57,7 @@ public class MonsterMovement : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
+            rb.AddForce(new Vector3 (0, -50, 500));
             HP playerHP = collision.gameObject.GetComponent<HP>();
             if (playerHP != null)
             {

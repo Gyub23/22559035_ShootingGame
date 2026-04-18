@@ -13,6 +13,6 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         bestScore = PlayerPrefs.GetInt("BestScore", 0);
-        bestScoreUI.text = "Best Score : " + bestScore;
+        bestScoreUI.text = "BEST SCORE : " + bestScore;
     }
 }

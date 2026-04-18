@@ -5,7 +5,9 @@ using UnityEngine;
 public class MonsterMovement : MonoBehaviour
 {
     public float spd = 1.0f;
+    public GameObject target;
     //public GameObject target;
+    //public GameObject PrefabsExplosion;
     Vector3 direct = Vector3.down;
 
     public GameObject Explosion;
@@ -19,21 +21,45 @@ public class MonsterMovement : MonoBehaviour
 
             direct = target.transform.position - transform.position;
             direct.Normalize();
-        }
     }
+}
 
     private void Update()
     {
         transform.position = transform.position + direct * spd * Time.deltaTime;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
-        GameObject explosionObj = Instantiate(Explosion);
-        explosionObj.transform.position = transform.position;
+        if(collision.gameObject.tag == "Bullet")
+        {
+            GameObject gameManager = GameObject.Find("GameManager");
+            ScoreManager scoreManager = gameManager.GetComponent<ScoreManager>();
+            scoreManager.nowScore++;
+            scoreManager.nowScoreUI.text = "Now Score : " + scoreManager.nowScore;
 
-        Destroy(collision.gameObject);
+            if(scoreManager.nowScore > scoreManager.bestScore)
+            {
+                scoreManager.bestScore = scoreManager.nowScore;
+                scoreManager.bestScoreUI.text = "Best Score : " + scoreManager.bestScore;
+                PlayerPrefs.SetInt("BestScore", scoreManager.bestScore);
+            }
 
-        Destroy(gameObject);
+            GameObject explosionObj = Instantiate(Explosion);
+            explosionObj.transform.position = transform.position;
+
+            Destroy(collision.gameObject);
+
+            Destroy(gameObject);
+        }
+
+        if (collision.gameObject.tag == "Player")
+        {
+            HP playerHP = collision.gameObject.GetComponent<HP>();
+            if (playerHP != null)
+            {
+                playerHP.TakeDamage(10);
+            }
+        }
     }
 }

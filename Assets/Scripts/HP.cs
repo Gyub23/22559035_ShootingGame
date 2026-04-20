@@ -7,11 +7,13 @@ public class HP : MonoBehaviour
 {
     public int maxHP = 100;
     public int currentHP;
+    public GameObject DeathUI;
 
     public Slider hpSlider;
 
     void Start()
     {
+        DeathUI.SetActive(false);
         currentHP = maxHP;
 
         if (hpSlider != null)
@@ -30,7 +32,7 @@ public class HP : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            Debug.Log("플레이어 사망");
+            DeathUI.SetActive(true);
         }
     }
 

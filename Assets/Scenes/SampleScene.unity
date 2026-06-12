@@ -955,7 +955,7 @@ MonoBehaviour:
   - {fileID: 714938415}
   MonsterPref: {fileID: 856609789801132090, guid: 80cc4dba201e8f54da937c4cddac2ab8, type: 3}
   SpecialMonsterPref: {fileID: 856609789801132090, guid: 9d28c5299b90e9c46a6f0807d2393245, type: 3}
-  specialSpawnRate: 0.1
+  specialSpawnRate: 0.3
   createTime: 1
 --- !u!1 &963194225
 GameObject:

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -3590331838526649178}
   - component: {fileID: -4212401514528572934}
   - component: {fileID: 1630700330217478771}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Burger
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -212,9 +212,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 6.487
       objectReference: {fileID: 0}
+    - target: {fileID: -2273669508972926186, guid: dae78bb202b63f148a1adb67c85e5941, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dae78bb202b63f148a1adb67c85e5941, type: 3}
       propertyPath: m_Name
       value: burgers
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dae78bb202b63f148a1adb67c85e5941, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

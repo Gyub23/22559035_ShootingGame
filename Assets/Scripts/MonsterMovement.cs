@@ -12,19 +12,43 @@ public class MonsterMovement : MonoBehaviour
 
     public GameObject Explosion;
 
-    private void Start()
+    [Header("Monster Type")]
+    public bool isSpecialMonster = false;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        spd = Random.Range(0.1f, 20f);
-        int rndNum = Random.Range(0, 10);
-        if(rndNum < 3)
-        {
-            GameObject target = GameObject.Find("Character");
-
-            direct = target.transform.position - transform.position;
-            direct.Normalize();
     }
-}
+
+    private void OnEnable()
+    {
+        ResetMovement();
+    }
+
+    private void ResetMovement()
+    {
+        spd = Random.Range(0.1f, 20f);
+
+        if (isSpecialMonster)
+        {
+            spd = Random.Range(8f, 14f); // 특수 몬스터 속도. 필요하면 조절
+        }
+
+        direct = Vector3.down;
+
+        int rndNum = Random.Range(0, 10);
+
+        if (rndNum < 3)
+        {
+            GameObject targetObject = GameObject.Find("Character");
+
+            if (targetObject != null)
+            {
+                direct = targetObject.transform.position - transform.position;
+                direct.Normalize();
+            }
+        }
+    }
 
     private void Update()
     {
@@ -33,35 +57,59 @@ public class MonsterMovement : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Bullet")
+        if (collision.gameObject.tag == "Bullet")
         {
-            GameObject gameManager = GameObject.Find("GameManager");
-            ScoreManager scoreManager = gameManager.GetComponent<ScoreManager>();
-            scoreManager.nowScore++;
-            scoreManager.nowScoreUI.text = "Now Score : " + scoreManager.nowScore;
+            ScoreManager.Instance.NowScore++;
 
-            if(scoreManager.nowScore > scoreManager.bestScore)
+            if (Explosion != null)
             {
-                scoreManager.bestScore = scoreManager.nowScore;
-                scoreManager.bestScoreUI.text = "BEST SCORE : " + scoreManager.bestScore;
-                PlayerPrefs.SetInt("BestScore", scoreManager.bestScore);
+                GameObject explosion = Instantiate(Explosion);
+                explosion.transform.position = transform.position;
             }
 
-            GameObject explosionObj = Instantiate(Explosion);
-            explosionObj.transform.position = transform.position;
+            collision.gameObject.SetActive(false);
 
-            Destroy(collision.gameObject);
+            MonsterDropper dropper = GetComponent<MonsterDropper>();
 
-            Destroy(gameObject);
+            if (dropper != null)
+            {
+                dropper.Drop();
+            }
+
+            GameObject monsterObj = GameObject.Find("MonsterManager");
+
+            if (monsterObj != null)
+            {
+                MonsterManager monsterManager = monsterObj.GetComponent<MonsterManager>();
+
+                if (monsterManager != null)
+                {
+                    monsterManager.ReturnMonster(gameObject);
+                }
+                else
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         if (collision.gameObject.tag == "Player")
         {
-            rb.AddForce(new Vector3 (0, -50, 500));
+            if (rb != null)
+            {
+                rb.AddForce(new Vector3(0, -50, 500));
+            }
+
             HP playerHP = collision.gameObject.GetComponent<HP>();
+
             if (playerHP != null)
             {
-                playerHP.TakeDamage(10);
+                int damage = isSpecialMonster ? 15 : 5;
+                playerHP.TakeDamage(damage);
             }
         }
     }

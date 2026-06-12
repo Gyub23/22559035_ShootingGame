@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6410590510396863230}
   - component: {fileID: 7124850364920087780}
   m_Layer: 3
-  m_Name: Monster
+  m_Name: Monster2
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6171638266154507314}
@@ -99,6 +99,7 @@ MonoBehaviour:
   spd: 0.5
   target: {fileID: 0}
   Explosion: {fileID: 7226888052703040409, guid: 7ec363c8df426644ea85f8d6d570561c, type: 3}
+  isSpecialMonster: 0
 --- !u!114 &7124850364920087780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,12 +112,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c5145059a6f604aac0c4cac5d63218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropPrefab: {fileID: 6389245388029886741, guid: 73b4823a6c3fcc445b9ad3fb66b98ddd, type: 3}
+  dropPrefab: {fileID: 1086452968701650449, guid: 427efafde0a912a4f8ce3820611dfcb6, type: 3}
   dropTables:
-  - itemData: {fileID: 11400000, guid: 67c04b6564cdebf47a6a8c6cf538ca00, type: 2}
-    dropRate: 0.5
+  - itemData: {fileID: 11400000, guid: a385e724265c3f64383a8b45b094e398, type: 2}
+    dropRate: 1
     minCount: 1
-    maxCount: 3
+    maxCount: 1
 --- !u!1001 &3243257226552583016
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -125,6 +126,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8348813553227442490}
     m_Modifications:
+    - target: {fileID: 1813684763041306017, guid: 152bde2d5db64e04ba9550ad065f46d2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 284abaae2513dae44bf8dd8142645433, type: 2}
     - target: {fileID: 1841225448638912429, guid: 152bde2d5db64e04ba9550ad065f46d2, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -133,6 +138,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2285805953373583591, guid: 152bde2d5db64e04ba9550ad065f46d2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 284abaae2513dae44bf8dd8142645433, type: 2}
     - target: {fileID: 3013415096082184666, guid: 152bde2d5db64e04ba9550ad065f46d2, type: 3}
       propertyPath: m_Layer
       value: 3

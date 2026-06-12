@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BulletFire : MonoBehaviour
@@ -8,10 +7,18 @@ public class BulletFire : MonoBehaviour
     public GameObject bulletObject;
     public GameObject bulletFireObject;
 
-    public float cooldownDuration = 1.5f;   // ÄğÅ¸ÀÓ 1.5ÃÊ
-    private float cooldownTimer = 0f;       // ÇöÀç ³²Àº ÄğÅ¸ÀÓ
+    public float cooldownDuration = 1.5f;
+    private float cooldownTimer = 0f;
 
-    // Update is called once per frame
+    private float baseCooldownDuration;
+    private float fireRateMultiplier = 1f;
+    private Coroutine fireRateCoroutine;
+
+    private void Awake()
+    {
+        baseCooldownDuration = cooldownDuration;
+    }
+
     void Update()
     {
         if (cooldownTimer > 0f)
@@ -25,17 +32,58 @@ public class BulletFire : MonoBehaviour
             GameObject bullet = Instantiate(bulletObject);
             bullet.transform.position = bulletFireObject.transform.position;
 
-            cooldownTimer = cooldownDuration;
+            cooldownTimer = GetCurrentCooldownDuration();
         }
+    }
+
+    // ì¥ë¹„ ì•„ì´í…œìš©: ì¥ë¹„ì¹¸ì— ë¼ìš´ ë™ì•ˆ ê³„ì† ì ìš©ë˜ëŠ” ì—°ì‚¬ì†ë„ ë°°ìœ¨
+    public void SetFireRateMultiplier(float multiplier)
+    {
+        if (fireRateCoroutine != null)
+        {
+            StopCoroutine(fireRateCoroutine);
+            fireRateCoroutine = null;
+        }
+
+        fireRateMultiplier = Mathf.Max(1f, multiplier);
+        Debug.Log($"ì¥ë¹„ ì—°ì‚¬ì†ë„ ë°°ìœ¨ ì ìš©: {fireRateMultiplier}ë°°");
+    }
+
+    // ì†Œë¹„ ì•„ì´í…œìš©: ì¼ì • ì‹œê°„ë§Œ ì ìš©ë˜ëŠ” ì—°ì‚¬ì†ë„ ë°°ìœ¨ì´ í•„ìš”í•  ë•Œ ì‚¬ìš© ê°€ëŠ¥
+    public void ApplyFireRateMultiplier(float multiplier, float duration)
+    {
+        if (multiplier <= 0f) multiplier = 1f;
+        if (duration <= 0f) duration = 10f;
+
+        if (fireRateCoroutine != null)
+        {
+            StopCoroutine(fireRateCoroutine);
+        }
+
+        fireRateCoroutine = StartCoroutine(FireRateBoostRoutine(multiplier, duration));
+    }
+
+    private IEnumerator FireRateBoostRoutine(float multiplier, float duration)
+    {
+        fireRateMultiplier = multiplier;
+        yield return new WaitForSeconds(duration);
+        fireRateMultiplier = 1f;
+        fireRateCoroutine = null;
+    }
+
+    private float GetCurrentCooldownDuration()
+    {
+        float safeMultiplier = Mathf.Max(0.01f, fireRateMultiplier);
+        return baseCooldownDuration / safeMultiplier;
     }
 
     public float GetCooldownNormalized()
     {
-        if (cooldownDuration <= 0f) return 0f;
-        return Mathf.Clamp01(cooldownTimer / cooldownDuration);
+        float currentCooldownDuration = GetCurrentCooldownDuration();
+        if (currentCooldownDuration <= 0f) return 0f;
+        return Mathf.Clamp01(cooldownTimer / currentCooldownDuration);
     }
 
-    // ÇÊ¿äÇÏ¸é ³²Àº ½Ã°£µµ °¡Á®¿Ã ¼ö ÀÖ°Ô
     public float GetCooldownRemaining()
     {
         return Mathf.Max(cooldownTimer, 0f);

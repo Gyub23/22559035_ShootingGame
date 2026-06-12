@@ -13,14 +13,13 @@ public class HP : MonoBehaviour
 
     void Start()
     {
-        DeathUI.SetActive(false);
-        currentHP = maxHP;
-
-        if (hpSlider != null)
+        if (DeathUI != null)
         {
-            hpSlider.maxValue = maxHP;
-            hpSlider.value = currentHP;
+            DeathUI.SetActive(false);
         }
+
+        currentHP = maxHP;
+        UpdateHPUI();
     }
 
     public void TakeDamage(int damage)
@@ -30,16 +29,28 @@ public class HP : MonoBehaviour
 
         UpdateHPUI();
 
-        if (currentHP <= 0)
+        if (currentHP <= 0 && DeathUI != null)
         {
             DeathUI.SetActive(true);
         }
+    }
+
+    public bool Heal(int amount)
+    {
+        if (amount <= 0) return false;
+        if (currentHP >= maxHP) return false;
+
+        currentHP += amount;
+        currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        UpdateHPUI();
+        return true;
     }
 
     void UpdateHPUI()
     {
         if (hpSlider != null)
         {
+            hpSlider.maxValue = maxHP;
             hpSlider.value = currentHP;
         }
     }

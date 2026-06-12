@@ -5,15 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bullet
+  - Monster
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Monster
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Bullet
   - 
   - 
   - 

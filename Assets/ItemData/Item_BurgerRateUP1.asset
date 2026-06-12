@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b50fec23b9123443874d8faad275a7c, type: 3}
+  m_Name: Item_BurgerRateUP1
+  m_EditorClassIdentifier: 
+  itemId: 10001
+  itemName: "\uBC84\uAC70 \uC5F0\uC0AC 1"
+  itemType: 0
+  icon: {fileID: 21300000, guid: 3e67cc8241d8235468a4242c1c58c659, type: 3}
+  attackBonus: 0
+  defenseBonus: 0
+  canStack: 1
+  maxStack: 99
+  useEffectType: 0
+  consumeOnUse: 1
+  healAmount: 10
+  fireRateMultiplier: 4
+  effectDuration: 10
